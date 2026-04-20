@@ -96,3 +96,37 @@ class QuizGame:
             if user_input:
                 return user_input
             print("⚠️  내용을 입력해주세요.")
+
+    def play_quiz(self):
+        """퀴즈 풀기 기능"""
+        if not self.quizzes:
+            print("⚠️  등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해주세요.")
+            return
+
+        print("\n🎯 퀴즈 풀기 시작!")
+        score = 0
+
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(f"\n[{i}/{len(self.quizzes)}]")
+            quiz.display()
+
+            user_answer = self._get_valid_number("정답 번호 입력: ", 1, 4)
+
+            if quiz.check_answer(user_answer):
+                print("✅ 정답입니다!")
+                score += 1
+            else:
+                print(f"❌ 오답입니다. 정답은 {quiz.answer}번이에요.")
+
+        # 결과 출력
+        total = len(self.quizzes)
+        print(f"\n{'='*35}")
+        print(f"🏁 결과: {total}문제 중 {score}개 정답!")
+        print(f"{'='*35}")
+
+        # 최고 점수 갱신
+        if score > self.best_score:
+            self.best_score = score
+            print(f"🎉 새로운 최고 점수! {score}점")
+        
+        self.save_state()
