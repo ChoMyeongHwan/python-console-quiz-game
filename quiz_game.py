@@ -130,3 +130,23 @@ class QuizGame:
             print(f"🎉 새로운 최고 점수! {score}점")
         
         self.save_state()
+
+    def add_quiz(self):
+        """새 퀴즈 등록"""
+        print("\n➕ 퀴즈 추가")
+        print("-" * 35)
+
+        question = self._get_valid_text("문제를 입력하세요: ")
+
+        choices = []
+        for i in range(1, 5):
+            choice = self._get_valid_text(f"선택지 {i}번: ")
+            choices.append(choice)
+
+        answer = self._get_valid_number("정답 번호 (1~4): ", 1, 4)
+
+        new_quiz = Quiz(question, choices, answer)
+        self.quizzes.append(new_quiz)
+        self.save_state()
+        print("✅ 퀴즈가 추가되었습니다!")
+        
