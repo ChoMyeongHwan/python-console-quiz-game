@@ -32,3 +32,21 @@ class Quiz:
             choices=data["choices"],
             answer=data["answer"]
         )
+    
+# 기본 퀴즈 데이터 (파일이 없을 때 사용)
+DEFAULT_QUIZZES = [
+    Quiz("파이썬에서 리스트를 만드는 기호는?",
+         ["()", "[]", "{}", "<>"], 2),
+
+    Quiz("파이썬에서 주석을 작성하는 기호는?",
+         ["//", "/*", "#", "--"], 3),
+
+    Quiz("파이썬 반복문이 아닌 것은?",
+         ["for", "while", "loop", "for-else"], 3),
+
+    Quiz("파이썬에서 함수를 정의하는 키워드는?",
+         ["func", "def", "function", "define"], 2),
+
+    Quiz("파이썬에서 아무것도 없음을 나타내는 값은?",
+         ["null", "undefined", "None", "empty"], 3),
+]
