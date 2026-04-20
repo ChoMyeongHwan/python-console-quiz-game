@@ -1,0 +1,1 @@
+# QuizGame 클래스
