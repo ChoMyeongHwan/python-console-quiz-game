@@ -164,3 +164,16 @@ class QuizGame:
                 print(f"   {j}. {choice}")
             print(f"   ✅ 정답: {quiz.answer}번")
             print()
+
+    def show_score(self):
+        """최고 점수 확인"""
+        print("\n🏆 점수 확인")
+        print("-" * 35)
+        if self.best_score == 0:
+            print("아직 퀴즈를 풀지 않았습니다.")
+            print("퀴즈를 풀고 점수를 기록해보세요! 💪")
+        else:
+            total = len(self.quizzes)
+            print(f"최고 점수: {self.best_score} / {total} 문제")
+            print(f"정답률: {self.best_score / total * 100:.1f}%")
+            
