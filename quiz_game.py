@@ -149,4 +149,18 @@ class QuizGame:
         self.quizzes.append(new_quiz)
         self.save_state()
         print("✅ 퀴즈가 추가되었습니다!")
-        
+
+    def show_list(self):
+        """등록된 퀴즈 목록 출력"""
+        if not self.quizzes:
+            print("⚠️  등록된 퀴즈가 없습니다.")
+            return
+
+        print(f"\n📋 퀴즈 목록 (총 {len(self.quizzes)}개)")
+        print("-" * 35)
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(f"{i}. {quiz.question}")
+            for j, choice in enumerate(quiz.choices, 1):
+                print(f"   {j}. {choice}")
+            print(f"   ✅ 정답: {quiz.answer}번")
+            print()
