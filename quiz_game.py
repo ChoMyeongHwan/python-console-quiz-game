@@ -190,8 +190,14 @@ class QuizGame:
 
         new_quiz = Quiz(question, choices, answer)
         self.quizzes.append(new_quiz)
+
+        # 새 퀴즈 추가 시 최고 점수 초기화 (새로운 문제 추가 → 기존 최고 점수 의미 없어짐)
+        self.best_score = 0
+        self.has_played = False
+
         self.save_state()
         print("✅ 퀴즈가 추가되었습니다!")
+        print("ℹ️  퀴즈가 추가되어 최고 점수가 초기화되었습니다.")
 
     def show_list(self):
         """등록된 퀴즈 목록 출력"""
@@ -225,4 +231,3 @@ class QuizGame:
         # 최고 점수를 전체 문제 수로 나누어 정답률 계산
         # 소수점 첫째 자리까지 출력
         print(f"정답률: {self.best_score / total * 100:.1f}%")
-            
