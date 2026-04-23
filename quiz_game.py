@@ -7,9 +7,10 @@ class QuizGame:
     """퀴즈 게임 전체를 관리하는 클래스"""
 
     def __init__(self):
-        self.quizzes = []      # Quiz 객체 목록
-        self.best_score = 0    # 최고 점수 (맞힌 문제 수)
-        self.load_state()      # 시작 시 파일 불러오기
+        self.quizzes = []       # Quiz 객체 목록
+        self.best_score = 0     # 최고 점수 (맞힌 문제 수)
+        self.has_played = False # 게임 플레이 여부 
+        self.load_state()       # 시작 시 파일 불러오기
 
     # ── 파일 입출력 ──────────────────────────────
     def load_state(self):
@@ -53,7 +54,8 @@ class QuizGame:
         try:
             data = {
                 "quizzes": [q.to_dict() for q in self.quizzes],
-                "best_score": self.best_score
+                "best_score": self.best_score,
+                "has_played": self.has_played
             }
 
             # 쓰기 모드로 파일을 열고 전체 데이터를 저장한다.
@@ -162,6 +164,9 @@ class QuizGame:
         print(f"🏁 결과: {total}문제 중 {score}개 정답!")
         print(f"{'='*35}")
 
+        # 게임 플레이 여부 기록
+        self.has_played = True
+
         # 최고 점수 갱신
         if score > self.best_score:
             self.best_score = score
@@ -207,16 +212,17 @@ class QuizGame:
         """최고 점수 확인"""
         print("\n🏆 점수 확인")
         print("-" * 35)
-        if self.best_score == 0:
+        
+        if not self.has_played:
             print("아직 퀴즈를 풀지 않았습니다.")
             print("퀴즈를 풀고 점수를 기록해보세요! 💪")
-        else:
-            total = len(self.quizzes)
+            return
+            
+        total = len(self.quizzes)
+        # 최고 점수는 "맞힌 개수"
+        print(f"최고 점수: {self.best_score} / {total} 문제")
 
-            # 최고 점수는 "맞힌 개수"
-            print(f"최고 점수: {self.best_score} / {total} 문제")
-
-            # 최고 점수를 전체 문제 수로 나누어 정답률 계산
-            # 소수점 첫째 자리까지 출력
-            print(f"정답률: {self.best_score / total * 100:.1f}%")
+        # 최고 점수를 전체 문제 수로 나누어 정답률 계산
+        # 소수점 첫째 자리까지 출력
+        print(f"정답률: {self.best_score / total * 100:.1f}%")
             
