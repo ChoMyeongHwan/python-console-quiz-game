@@ -1,1 +1,106 @@
-{}
+{
+  "quizzes": [
+    {
+      "question": "파이썬에서 리스트를 만드는 기호는?",
+      "choices": [
+        "()",
+        "[]",
+        "{}",
+        "<>"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "파이썬에서 주석을 작성하는 기호는?",
+      "choices": [
+        "//",
+        "/*",
+        "#",
+        "--"
+      ],
+      "answer": 3
+    },
+    {
+      "question": "파이썬에서 반복문이 아닌 것은?",
+      "choices": [
+        "for",
+        "while",
+        "loop",
+        "for-else"
+      ],
+      "answer": 3
+    },
+    {
+      "question": "파이썬에서 함수를 정의하는 키워드는?",
+      "choices": [
+        "func",
+        "def",
+        "function",
+        "define"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "파이썬에서 아무것도 없음을 나타내는 값은?",
+      "choices": [
+        "None",
+        "null",
+        "undefined",
+        "empty"
+      ],
+      "answer": 1
+    },
+    {
+      "question": "파이썬에서 조건문을 시작할 때 사용하는 키워드는?",
+      "choices": [
+        "for",
+        "while",
+        "if",
+        "switch"
+      ],
+      "answer": 3
+    },
+    {
+      "question": "파이썬에서 문자열 자료형은 무엇인가요?",
+      "choices": [
+        "int",
+        "str",
+        "bool",
+        "list"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "파이썬에서 정수 자료형은 무엇인가요?",
+      "choices": [
+        "float",
+        "str",
+        "bool",
+        "int"
+      ],
+      "answer": 4
+    },
+    {
+      "question": "파이썬에서 True/False 값을 가지는 자료형은 무엇인가요?",
+      "choices": [
+        "bool",
+        "int",
+        "str",
+        "list"
+      ],
+      "answer": 1
+    },
+    {
+      "question": "파이썬에서 조건이 거짓일 때 실행되는 키워드는 무엇인가요?",
+      "choices": [
+        "if",
+        "elif",
+        "for",
+        "else"
+      ],
+      "answer": 4
+    }
+  ],
+  "best_score": 0,
+  "has_played": false
+}
