@@ -41,6 +41,13 @@ class QuizGame:
             self.quizzes = DEFAULT_QUIZZES[:]
             self.best_score = 0
 
+        except OSError as e:
+            # 파일 읽기 실패, 권한 문제 등 입출력 예외 처리
+            print(f"⚠️  파일을 읽는 중 오류가 발생했습니다: {e}")
+            self.quizzes = DEFAULT_QUIZZES[:]
+            self.best_score = 0
+            self.has_played = False
+
     def save_state(self):
         """state.json에 데이터 저장"""
         try:
