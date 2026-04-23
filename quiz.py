@@ -18,12 +18,15 @@ class Quiz:
 
     def to_dict(self):
         """JSON 저장을 위해 딕셔너리로 변환"""
+        # json.dump()는 사용자 정의 객체(Quiz)를 그대로 저장할 수 없기 때문에
+        # 저장 가능한 기본 자료형(dict, list, str, int 등)으로 바꿔야 한다.
         return {
             "question": self.question,
             "choices": self.choices,
             "answer": self.answer
         }
 
+    # @staticmethod은 self 매개변수를 받지 않으며, 클래스나 인스턴스 상태에 접근하지 않는 함수에 사용한다.
     @staticmethod
     def from_dict(data):
         """딕셔너리에서 Quiz 객체를 생성 (파일 불러올 때 사용)"""

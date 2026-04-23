@@ -15,14 +15,26 @@ class QuizGame:
     def load_state(self):
         """state.json에서 데이터 불러오기"""
         try:
+            # UTF-8 인코딩으로 state.json 파일을 읽는다.
             with open(STATE_FILE, "r", encoding="utf-8") as f:
+                # JSON 문자열을 파이썬 dict로 변환
                 data = json.load(f)
+                
+                # 저장된 퀴즈 dict 목록을 Quiz 객체 목록으로 복원
+                # 리스트 컴프리헨션 = "반복 + 변환 + 리스트 생성"을 한 줄로 표현
+                # [변환식 for 요소 in 반복대상]
                 self.quizzes = [Quiz.from_dict(q) for q in data["quizzes"]]
+
+                # best_score 키가 없더라도 기본값 0을 사용하도록 get 사용
                 self.best_score = data.get("best_score", 0)
+        
         except FileNotFoundError:
             # 파일 없음 → 기본 데이터 사용
+            # [:]는 리스트 자체는 새로 복사하지만, 내부 객체는 공유되는 얕은 복사이다.
+            # 따라서 DEFAULT_QUIZZES 리스트 자체 변경은 막지만, 내부 객체 변경은 영향을 줄 수 있다.
             self.quizzes = DEFAULT_QUIZZES[:]
             self.best_score = 0
+
         except (json.JSONDecodeError, KeyError):
             # 파일 손상 → 안내 후 기본 데이터로 복구
             print("⚠️  데이터 파일이 손상되었습니다. 기본 데이터로 초기화합니다.")
@@ -36,9 +48,18 @@ class QuizGame:
                 "quizzes": [q.to_dict() for q in self.quizzes],
                 "best_score": self.best_score
             }
+
+            # 쓰기 모드로 파일을 열고 전체 데이터를 저장한다.
             with open(STATE_FILE, "w", encoding="utf-8") as f:
+                # ensure_ascii=False:
+                # 한글이 \uXXXX 형태로 깨지지 않고 그대로 저장되도록 함
+                #
+                # indent=2:
+                # 사람이 읽기 좋은 들여쓰기 형식으로 저장
                 json.dump(data, f, ensure_ascii=False, indent=2)
+        
         except IOError as e:
+            # 디스크 쓰기 실패, 권한 문제 등 입출력 예외 처리
             print(f"⚠️  저장 중 오류 발생: {e}")
 
     # ── 메뉴 ─────────────────────────────────────
@@ -59,7 +80,9 @@ class QuizGame:
         print("퀴즈 게임에 오신 것을 환영합니다! 👋")
         while True:
             self.show_menu()
+
             choice = self._get_valid_number("메뉴 선택: ", 1, 5)
+            
             if choice == 1:
                 self.play_quiz()
             elif choice == 2:
@@ -78,14 +101,20 @@ class QuizGame:
         """유효한 숫자를 입력받을 때까지 반복"""
         while True:
             try:
+                # input() 결과는 문자열이므로 strip()으로 앞뒤 공백 제거
                 user_input = input(prompt).strip()
+                
+                # 빈 입력 방지
                 if not user_input:
                     print("⚠️  값을 입력해주세요.")
                     continue
                 num = int(user_input)
+
                 if min_val <= num <= max_val:
                     return num
+                
                 print(f"⚠️  {min_val}~{max_val} 사이의 숫자를 입력하세요.")
+
             except ValueError:
                 print("⚠️  숫자만 입력해주세요.")
 
@@ -104,8 +133,10 @@ class QuizGame:
             return
 
         print("\n🎯 퀴즈 풀기 시작!")
+        
         score = 0
 
+        # 등록된 퀴즈를 순서대로 출제
         for i, quiz in enumerate(self.quizzes, 1):
             print(f"\n[{i}/{len(self.quizzes)}]")
             quiz.display()
@@ -174,6 +205,11 @@ class QuizGame:
             print("퀴즈를 풀고 점수를 기록해보세요! 💪")
         else:
             total = len(self.quizzes)
+
+            # 최고 점수는 "맞힌 개수"
             print(f"최고 점수: {self.best_score} / {total} 문제")
+
+            # 최고 점수를 전체 문제 수로 나누어 정답률 계산
+            # 소수점 첫째 자리까지 출력
             print(f"정답률: {self.best_score / total * 100:.1f}%")
             
