@@ -2,6 +2,12 @@ class Quiz:
     """개별 퀴즈 하나를 표현하는 클래스"""
 
     def __init__(self, question, choices, answer):
+        if len(choices) != 4:
+            raise ValueError("선택지는 반드시 4개여야 합니다.")
+
+        if answer not in (1, 2, 3, 4):
+            raise ValueError("정답 번호는 1~4 사이여야 합니다.")
+
         self.question = question   # str: 문제
         self.choices = choices     # list: 선택지 4개
         self.answer = answer       # int: 정답 번호 (1~4)
