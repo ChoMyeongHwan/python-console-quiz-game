@@ -129,6 +129,19 @@ remote.origin.url=git@github.com:ChoMyeongHwan/python-console-quiz-game.git
 
 ### 7-3. Git 작업 이력
 
+#### git init
+![Git Init](docs/screenshots/git_init.png)
+
+#### git merge
+![Git Merge](docs/screenshots/git_merge.png)
+
+#### git clone
+![Git Clone](docs/screenshots/git_clone.png)
+
+#### git pull
+![Git Pull](docs/screenshots/git_pull.png)
+
+#### git log
 ```zsh
 git log --oneline --graph
 ```
