@@ -11,7 +11,10 @@ if __name__ == "__main__":
     # 사용자가 Ctrl+C를 누르거나(KeyboardInterrupt),
     # 입력 스트림 종료(Ctrl+D / EOFError)가 발생한 경우를 처리한다.
     except (KeyboardInterrupt, EOFError):
-        print("\n\n⚠️  프로그램이 중단되었습니다. 데이터를 저장합니다...")
-        
-        game.save_state()
-        print("저장 완료! 안녕히 가세요 👋")
+        print("\n\n⚠️  프로그램이 중단되었습니다.")
+        print("현재 상태를 저장하고 종료합니다...")
+
+        if game.save_state():
+            print("저장 완료! 안녕히 가세요 👋")
+        else:
+            print("저장에 실패했습니다. 프로그램을 종료합니다.")

@@ -28,6 +28,8 @@ class QuizGame:
 
                 # best_score 키가 없더라도 기본값 0을 사용하도록 get 사용
                 self.best_score = data.get("best_score", 0)
+                # has_played 키가 없더라도 기본값 False를 사용하도록 get 사용
+                self.has_played = data.get("has_played", False)
         
         except FileNotFoundError:
             # 파일 없음 → 기본 데이터 사용
@@ -35,12 +37,14 @@ class QuizGame:
             # 따라서 DEFAULT_QUIZZES 리스트 자체 변경은 막지만, 내부 객체 변경은 영향을 줄 수 있다.
             self.quizzes = DEFAULT_QUIZZES[:]
             self.best_score = 0
+            self.has_played = False
 
-        except (json.JSONDecodeError, KeyError):
-            # 파일 손상 → 안내 후 기본 데이터로 복구
+        except (json.JSONDecodeError, KeyError, ValueError):
+            # 파일 손상 또는 Quiz 데이터 검증 실패 → 안내 후 기본 데이터로 복구
             print("⚠️  데이터 파일이 손상되었습니다. 기본 데이터로 초기화합니다.")
             self.quizzes = DEFAULT_QUIZZES[:]
             self.best_score = 0
+            self.has_played = False
 
         except OSError as e:
             # 파일 읽기 실패, 권한 문제 등 입출력 예외 처리
@@ -66,10 +70,13 @@ class QuizGame:
                 # indent=2:
                 # 사람이 읽기 좋은 들여쓰기 형식으로 저장
                 json.dump(data, f, ensure_ascii=False, indent=2)
+
+            return True
         
-        except IOError as e:
+        except OSError as e:
             # 디스크 쓰기 실패, 권한 문제 등 입출력 예외 처리
             print(f"⚠️  저장 중 오류 발생: {e}")
+            return False
 
     # ── 메뉴 ─────────────────────────────────────
     def show_menu(self):
@@ -101,8 +108,10 @@ class QuizGame:
             elif choice == 4:
                 self.show_score()
             elif choice == 5:
-                self.save_state()
-                print("저장 완료! 안녕히 가세요 👋")
+                if self.save_state():
+                    print("저장 완료! 안녕히 가세요 👋")
+                else:
+                    print("저장에 실패했습니다. 프로그램을 종료합니다.")
                 break
 
     # ── 공통 입력 처리 ────────────────────────────
@@ -172,7 +181,8 @@ class QuizGame:
             self.best_score = score
             print(f"🎉 새로운 최고 점수! {score}점")
         
-        self.save_state()
+        if not self.save_state():
+            print("⚠️  점수 저장에 실패했습니다.")
 
     def add_quiz(self):
         """새 퀴즈 등록"""
@@ -195,9 +205,11 @@ class QuizGame:
         self.best_score = 0
         self.has_played = False
 
-        self.save_state()
-        print("✅ 퀴즈가 추가되었습니다!")
-        print("ℹ️  퀴즈가 추가되어 최고 점수가 초기화되었습니다.")
+        if self.save_state():
+            print("✅ 퀴즈가 추가되었습니다!")
+            print("ℹ️  퀴즈가 추가되어 최고 점수가 초기화되었습니다.")
+        else:
+            print("⚠️  퀴즈는 메모리에 추가되었지만 파일 저장에 실패했습니다.")
 
     def show_list(self):
         """등록된 퀴즈 목록 출력"""
